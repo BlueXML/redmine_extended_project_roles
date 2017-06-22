@@ -1,0 +1,35 @@
+<!--#Copyright (C) 2017  Alexandre BOUDINE
+#
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
+
+<% @user = User.find(member[:user_id]) %>
+
+<td class="role_within">
+	<%= select_tag(:role_select, options_for_select(roles), {:onChange => "javascript: setRole(this);", :class => "role_select_"+@user.id.to_s}) %>
+</td>
+
+<% @project_role = ExtendedUserProject.find_by_user_id(member[:user_id]) %>
+
+<% @project_role = ExtendedUserProject.all
+if @project_role != nil then
+	@project_role = @project_role.select{|r| (r[:user_id] == member[:user_id].to_i)}
+	@project_role = @project_role.select{|r| (r[:project_id] == @project[:id].to_i)}
+	@project_role = @project_role.first
+end %>
+
+<script type="text/javascript">
+	<% if @project_role != nil %>
+			$('.role_select_<%= @user.id.to_s %> option[value=<%= @project_role[:extended_project_role_id] %>]').attr('selected','selected');
+	<% end %>
+</script>

@@ -1,0 +1,50 @@
+<!--#Copyright (C) 2017  Alexandre BOUDINE
+#
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
+
+<% @available_roles = Enumeration.all
+	if @available_roles != nil then
+		@available_roles = @available_roles.select{|r| (r[:type] == "ExtendedProjectRole")}
+	end 
+	if @available_roles != nil then
+		@available_roles = @available_roles.map{|r| [r.name, r.id]}
+		@available_roles.unshift(['',-1]) #add an empty slot
+	end
+%>
+
+<% if Member.all.where("user_id IN (SELECT id FROM users WHERE type = 'User' AND id = '"+member[:user_id].to_s+"')").to_a.size != 0 %>
+	<%= render :partial => 'projects/settings/form', :locals => {:member => member, :roles => @available_roles} %>
+<% end %>
+
+
+<script type="text/javascript">
+ 	function setRole(item){
+		var role = item.options[item.selectedIndex].value;
+		if(role != null){
+			var user_id = ((item.className).substring((item.className).indexOf("role_select_")+12)).split(" ")[0];
+			$.ajax({
+					url: "/members/create",
+					type: "POST",
+					data: {
+						user_id: user_id,
+						project_id: "<%= @project[:id] %>",
+						role_id: role
+					},
+					success: function(html){
+						location.reload();
+					}
+				});
+		}
+	}
+</script>

@@ -1,0 +1,6 @@
+# English strings go here for Rails i18n
+en:
+  permission_manage_roles: Manage roles within projects
+  enumeration_project_roles: Project Roles
+  label_roles: Project Roles
+  label_role_within: Role within the project
