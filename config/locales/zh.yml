@@ -1,0 +1,6 @@
+# Simplified Chinese strings go here for Rails i18n
+zh:
+  permission_manage_roles: 管理项目内角色
+  enumeration_project_roles: 项目角色
+  label_roles: 项目角色
+  label_role_within: 项目内角色
