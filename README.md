@@ -23,8 +23,8 @@ To associate role to member :
 
 ## Installation :
 
-	$cd /path/to/redmine/directory
-	$git clone https://github.com/...
+	$cd /path/to/redmine/directory/plugins
+	$git clone https://github.com/BlueXML/redmine_extended_project_roles.git
 	$bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
 ## Compatibility :
